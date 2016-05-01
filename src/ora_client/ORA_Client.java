@@ -19,15 +19,18 @@ import javafx.stage.Stage;
  */
 public class ORA_Client extends Application {
     
+    public static ConnectionManager connectManager;
+    
     @Override
     public void start(Stage primaryStage) {
         Button btn = new Button();
-        btn.setText("Say 'Hello World'");
+        btn.setText("Say 'Hello Client'");
         btn.setOnAction(new EventHandler<ActionEvent>() {
             
             @Override
             public void handle(ActionEvent event) {
-                System.out.println("Hello World!");
+               connectManager = new ConnectionManager();
+               connectManager.connect();
             }
         });
         
@@ -36,7 +39,7 @@ public class ORA_Client extends Application {
         
         Scene scene = new Scene(root, 300, 250);
         
-        primaryStage.setTitle("Hello World!");
+        primaryStage.setTitle("Hello Client!");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
