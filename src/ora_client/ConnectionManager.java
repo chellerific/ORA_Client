@@ -17,7 +17,7 @@ import java.util.logging.Logger;
 public class ConnectionManager {
     private final int portNumber = 8000;
 //    private final String ipAdd = "192.168.0.11"; //CHelsi
-    private final String ipAdd = "192.168.1.92"; //Karolis
+    private final String ipAdd = "127.0.0.1"; //Karolis
     public static Socket connection;
     
     public void connect() {
