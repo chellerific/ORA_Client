@@ -15,7 +15,7 @@ import javax.net.ssl.SSLSocketFactory;
  *
  * @author Chelsi
  */
-public class ConnectionManager {
+public class ClientConnectionManager {
 
 //    private final int portNumber = 8000;
 ////    private final String ipAdd = "192.168.0.11"; //CHelsi

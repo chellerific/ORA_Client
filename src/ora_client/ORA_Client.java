@@ -19,7 +19,7 @@ import javafx.stage.Stage;
  */
 public class ORA_Client extends Application {
     
-    public static ConnectionManager connectManager;
+    public static ClientConnectionManager connectManager;
     
     @Override
     public void start(Stage primaryStage) {
@@ -29,7 +29,7 @@ public class ORA_Client extends Application {
             
             @Override
             public void handle(ActionEvent event) {
-               connectManager = new ConnectionManager();
+               connectManager = new ClientConnectionManager();
                connectManager.connect();
             }
         });
