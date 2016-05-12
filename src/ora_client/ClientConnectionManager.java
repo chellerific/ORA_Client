@@ -6,6 +6,7 @@
 package ora_client;
 
 import java.io.BufferedReader;
+import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import javax.net.ssl.SSLSocket;
@@ -36,25 +37,7 @@ public class ClientConnectionManager {
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
             SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
 
-            // Initializing the streams for Communication with the Server
-            out = new PrintWriter(sslSocket.getOutputStream(), true);
-            in = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
-
-            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
-            String userInput = "Hello Testing";
-            out.println(userInput);
-
-            while ((userInput = stdIn.readLine()) != null) {
-                out.println(userInput);
-                System.out.println("echo: " + in.readLine());
-            }
-
-            out.println(userInput);
-
-            // Closing the Streams and the Socket
-            out.close();
-            in.close();
-            stdIn.close();
+            receiveMessage(sslSocket);
             sslSocket.close();
         } catch (Exception exp) {
             System.out.println(" Exception occurred .... " + exp);
@@ -62,6 +45,50 @@ public class ClientConnectionManager {
         }
     }
     
+        public void receiveMessage(SSLSocket socket) throws IOException {
+        while (true) {
+            PrintWriter out = new PrintWriter(socket.getOutputStream(), true);
+            BufferedReader in = new BufferedReader(
+                    new InputStreamReader(
+                            socket.getInputStream()));
+            String inputLine, outputLine;
+
+            while ((inputLine = in.readLine()) != null) {
+                out.println(inputLine);
+                System.out.println("Client received message: " + inputLine);
+            }
+
+            // Close the streams and the socket
+            out.close();
+            in.close();
+//            sslSocket.close();
+//            sslServerSocket.close();
+
+        }
+    }
+    
+        public void sendMessage(){
+                        // Initializing the streams for Communication with the Server
+//            out = new PrintWriter(sslSocket.getOutputStream(), true);
+//            in = new BufferedReader(new InputStreamReader(sslSocket.getInputStream()));
+//
+//            BufferedReader stdIn = new BufferedReader(new InputStreamReader(System.in));
+//            String userInput = "Hello Testing";
+//            out.println(userInput);
+//
+//            while ((userInput = stdIn.readLine()) != null) {
+//                out.println(userInput);
+//                System.out.println("echo: " + in.readLine());
+//            }
+//
+//            out.println(userInput);
+//
+//            // Closing the Streams and the Socket
+//            out.close();
+//            in.close();
+//            stdIn.close();
+//            sslSocket.close();
+        }
     
 
 }
