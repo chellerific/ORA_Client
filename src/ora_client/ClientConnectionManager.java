@@ -21,7 +21,9 @@ public class ClientConnectionManager {
     private PrintWriter out = null;
     private BufferedReader in = null;
 
-    public void connect() {
+
+    public void connect(String uname, String pass) {
+        AuthenticatorClient authenticator = new AuthenticatorClient(uname, pass);
 
         System.setProperty("javax.net.ssl.trustStore", "src/resources/client.ks");
         System.setProperty("javax.net.ssl.trustStorePassword", "passwd");
@@ -31,6 +33,25 @@ public class ClientConnectionManager {
             SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
 
             MessageUtils.sendMessage(sslSocket, "Client");
+            String srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            if(srvAnswer.equalsIgnoreCase("GET USERNAME")){
+                MessageUtils.sendMessage(sslSocket, authenticator.getUsername());
+            }
+            srvAnswer="";
+            srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            if(!srvAnswer.isEmpty()){
+                authenticator.acceptChallenge(srvAnswer);
+            }
+            MessageUtils.sendMessage(sslSocket, authenticator.sendChallengeAnswer());
+            srvAnswer="";
+            srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            if(srvAnswer.equalsIgnoreCase("OK")){
+                
+            }else if(srvAnswer.equalsIgnoreCase("FAIL")){
+                
+            }else{
+                System.out.println("Incorrect password");
+            }
 
             sslSocket.close();
         } catch (Exception exp) {
