@@ -31,10 +31,11 @@ public class AuthenticatorClient {
     private int random;
     private String challengeParameters = "";
     //this number is the bit length of the hashed password
-    private final int HASH_BIT_LENGTH = 512;
+    private final int HASH_BIT_LENGTH = 256;
     //This number defines ow many times to run hash algorithm
     //when calculating the hashed password
     private final int hashIterationNumber = 1024;
+    private String challAnswer="";
 
     public AuthenticatorClient(String username, String password) {
         if (!username.isEmpty() && !password.isEmpty()) {
@@ -63,44 +64,50 @@ public class AuthenticatorClient {
     }
     
     public String sendChallengeAnswer(){
-        return challengeFunction();
+        challAnswer = challengeFunction();
+        printAll();
+        return challAnswer;
     }
     
     private String challengeFunction(){
-        StringBuilder challengeAnswer= new StringBuilder();
+        System.out.println("calculating challenge hash...");
+        String challengeAnswer="";
         try {
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             KeySpec keySpec = new PBEKeySpec(hashedPass.toCharArray(), salt.getBytes(), random, HASH_BIT_LENGTH);
             byte[] hashValue = keyFactory.generateSecret(keySpec).getEncoded();
-            
+
             for(int i=0; i<hashValue.length; i++){
-                challengeAnswer.append(Integer.toHexString(0xFF &hashValue[i]));
+                challengeAnswer = challengeAnswer + (Integer.toHexString(0xFF &hashValue[i]));
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AuthenticatorClient.class.getName()).log(Level.SEVERE, null, ex);
         } catch (InvalidKeySpecException ex) {
             Logger.getLogger(AuthenticatorClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return challengeAnswer.toString();
+        
+        
+        return challengeAnswer;
     }
     
     private String calculatePasswordHash(String pass, String salt) throws InvalidKeySpecException{
-        StringBuilder hashedPass= new StringBuilder();
+        String hashPass="";
+        System.out.println("Calculating paswword hash...");
         try {
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
             KeySpec keySpec = new PBEKeySpec(password.toCharArray(), salt.getBytes(), hashIterationNumber, HASH_BIT_LENGTH);
             byte[] hashValue = keyFactory.generateSecret(keySpec).getEncoded();
-            
             for(int i=0; i<hashValue.length; i++){
-                hashedPass.append(Integer.toHexString(0xFF &hashValue[i]));
+                hashPass = hashPass + Integer.toHexString(0xFF &hashValue[i]);
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AuthenticatorClient.class.getName()).log(Level.SEVERE, null, ex);
         }
-        return hashedPass.toString();
+        return hashPass;
     }
     
     private String[] tokenizeParametersFromServer(String params){
+        System.out.println("tokenizing message...");
          String[] parameters;
         if(!params.isEmpty()){
             parameters = params.split(" ");
@@ -108,6 +115,18 @@ public class AuthenticatorClient {
             throw new IllegalArgumentException("Empty challenge parameters");
         }
         return parameters;
+    }
+    
+    private void printAll(){
+        System.out.println("\n------Client Data------");
+        System.out.println("username: "+username);
+        System.out.println("password: "+hashedPass);
+        System.out.println("random number: "+random);
+        System.out.println("salt: "+salt);
+        System.out.println("challAnswer: "+challAnswer);
+        System.out.println("timesToRunHash: "+hashIterationNumber);
+        System.out.println("Hash bit length: "+HASH_BIT_LENGTH);
+        System.out.println("------End Client Data--------");
     }
 
    
