@@ -30,7 +30,7 @@ public class ORA_Client extends Application {
             @Override
             public void handle(ActionEvent event) {
                connectManager = new ClientConnectionManager();
-               connectManager.connect(WE WANT THE USERNAME AND PASS AS PARAMETERS HERE);
+               connectManager.connect("bitharis@mail.com","myPass");
             }
         });
         
