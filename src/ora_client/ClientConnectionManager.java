@@ -32,13 +32,21 @@ public class ClientConnectionManager {
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
             SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
 
+            //idenify that you are a voter client 
             MessageUtils.sendMessage(sslSocket, "Client");
+            System.out.println("Client: Client");
+            //get challenge parameters from server
             String srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            System.out.println("Server: "+srvAnswer);
             if(srvAnswer.equalsIgnoreCase("GET USERNAME")){
-                MessageUtils.sendMessage(sslSocket, authenticator.getUsername());
+                //send username
+                String un = authenticator.getUsername();
+                System.out.println("Client :"+un);
+                MessageUtils.sendMessage(sslSocket, un);
             }
             srvAnswer="";
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            System.out.println("Server: "+srvAnswer);
             if(!srvAnswer.isEmpty()){
                 authenticator.acceptChallenge(srvAnswer);
             }
@@ -46,11 +54,11 @@ public class ClientConnectionManager {
             srvAnswer="";
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
             if(srvAnswer.equalsIgnoreCase("OK")){
-                
+                System.out.println("Authentication successful");
             }else if(srvAnswer.equalsIgnoreCase("FAIL")){
-                
-            }else{
                 System.out.println("Incorrect password");
+            }else{
+                System.out.println("Authentication failed unknown reason");
             }
 
             sslSocket.close();
