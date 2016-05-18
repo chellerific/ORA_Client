@@ -6,14 +6,13 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-
-<AnchorPane id="AnchorPane" prefHeight="221.0" prefWidth="413.0" xmlns:fx="http://javafx.com/fxml/1" xmlns="http://javafx.com/javafx/8.0.65" fx:controller="FXMLs.LogIn_windowController">
+<AnchorPane id="AnchorPane" prefHeight="221.0" prefWidth="413.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientControllers.LogIn_client_controller">
    <children>
       <TextField fx:id="usernameField" layoutX="152.0" layoutY="75.0" prefHeight="25.0" prefWidth="232.0" />
       <TextField fx:id="passwordField" layoutX="152.0" layoutY="127.0" prefHeight="25.0" prefWidth="232.0" />
       <Label layoutX="66.0" layoutY="79.0" text="Username" />
       <Label layoutX="66.0" layoutY="131.0" text="Password" />
-      <Button fx:id="logInBtn" layoutX="181.0" layoutY="167.0" mnemonicParsing="false" text="Log In" />
+      <Button fx:id="logInBtn" layoutX="181.0" layoutY="167.0" mnemonicParsing="false" onAction="#logInAction" text="Log In" />
       <Label layoutX="121.0" layoutY="20.0" text="Welcome Voter!">
          <font>
             <Font size="24.0" />
