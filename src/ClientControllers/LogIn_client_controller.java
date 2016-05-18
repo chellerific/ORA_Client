@@ -10,6 +10,7 @@ import java.util.ResourceBundle;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
+import javafx.scene.control.PasswordField;
 import javafx.scene.control.TextField;
 import ora_client.ClientConnectionManager;
 
@@ -23,7 +24,8 @@ public class LogIn_client_controller implements Initializable {
     public static ClientConnectionManager connectionManager;
 
     @FXML
-    private TextField usernameField, passwordField;
+    private TextField usernameField;
+    private PasswordField passwordField;
     private Button logInBtn;
 
     @FXML
