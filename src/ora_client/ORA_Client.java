@@ -5,12 +5,11 @@
  */
 package ora_client;
 
+import java.io.IOException;
 import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
 import javafx.stage.Stage;
 
 /**
@@ -19,36 +18,22 @@ import javafx.stage.Stage;
  */
 public class ORA_Client extends Application {
     
-    public static ClientConnectionManager connectManager;
     
     @Override
-    public void start(Stage primaryStage) {
-        Button btn = new Button();
-        btn.setText("Connect");
-        btn.setOnAction(new EventHandler<ActionEvent>() {
-            
-            @Override
-            public void handle(ActionEvent event) {
-               connectManager = new ClientConnectionManager();
-               connectManager.connect("bitharis@mail.com","myPass");
-            }
-        });
-        
-        StackPane root = new StackPane();
-        root.getChildren().add(btn);
-        
-        Scene scene = new Scene(root, 300, 250);
-        
-        primaryStage.setTitle("Hello Client!");
-        primaryStage.setScene(scene);
-        primaryStage.show();
+    public void start(Stage stage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/LogIn_client_window.fxml"));
+
+        Scene scene = new Scene(root);
+        stage.setTitle("ORA");
+        stage.setScene(scene);
+        stage.show();
     }
 
     /**
      * @param args the command line arguments
      */
-    public static void main(String[] args) {
-        launch(args);
-    }
+//    public static void main(String[] args) {
+//        launch(args);
+//    }
     
 }

@@ -5,7 +5,6 @@
  */
 package ora_client;
 
-import com.sun.javaws.exceptions.InvalidArgumentException;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
