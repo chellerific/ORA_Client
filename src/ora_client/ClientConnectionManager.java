@@ -22,6 +22,7 @@ public class ClientConnectionManager {
     private BufferedReader in = null;
     public static SSLSocket sslSocket;
 
+
     public boolean connect(String uname, String pass) {
         AuthenticatorClient authenticator = new AuthenticatorClient(uname, pass);
 
