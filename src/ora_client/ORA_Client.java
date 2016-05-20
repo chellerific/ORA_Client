@@ -21,7 +21,7 @@ public class ORA_Client extends Application {
     
     @Override
     public void start(Stage stage) throws IOException {
-        Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/LogIn_client_window.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/Login.fxml"));
 
         Scene scene = new Scene(root);
         stage.setTitle("ORA");

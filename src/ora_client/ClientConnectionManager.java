@@ -22,7 +22,7 @@ public class ClientConnectionManager {
     private BufferedReader in = null;
 
 
-    public void connect(String uname, String pass) {
+    public boolean connect(String uname, String pass) {
         AuthenticatorClient authenticator = new AuthenticatorClient(uname, pass);
 
         System.setProperty("javax.net.ssl.trustStore", "src/resources/client.ks");
@@ -46,6 +46,9 @@ public class ClientConnectionManager {
             }
             srvAnswer="";
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            if(srvAnswer.equals("NotFound")){
+                return false;
+            }
             System.out.println("Server: "+srvAnswer);
             if(!srvAnswer.isEmpty()){
                 authenticator.acceptChallenge(srvAnswer);
@@ -55,15 +58,18 @@ public class ClientConnectionManager {
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
             if(srvAnswer.equalsIgnoreCase("OK")){
                 System.out.println("Authentication successful");
+                return true;
             }else if(srvAnswer.equalsIgnoreCase("FAIL")){
                 System.out.println("Incorrect password");
+                return false;
             }else{
                 System.out.println("Authentication failed unknown reason");
+                return false;
             }
 
-            sslSocket.close();
         } catch (Exception exp) {
             exp.printStackTrace();
         }
+        return false;
     }
 }
