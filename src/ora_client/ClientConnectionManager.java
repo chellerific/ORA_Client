@@ -20,6 +20,7 @@ public class ClientConnectionManager {
     private final int intSSLport = 4443; // Port where the SSL Server is listening
     private PrintWriter out = null;
     private BufferedReader in = null;
+    public static SSLSocket sslSocket;
 
 
     public boolean connect(String uname, String pass) {
@@ -30,7 +31,7 @@ public class ClientConnectionManager {
 
         try {
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-            SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
+            sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
 
             //idenify that you are a voter client 
             MessageUtils.sendMessage(sslSocket, "Client");
