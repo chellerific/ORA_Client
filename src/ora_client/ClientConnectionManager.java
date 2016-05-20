@@ -20,9 +20,10 @@ public class ClientConnectionManager {
     private final int intSSLport = 4443; // Port where the SSL Server is listening
     private PrintWriter out = null;
     private BufferedReader in = null;
+    public static SSLSocket sslSocket;
 
 
-    public void connect(String uname, String pass) {
+    public boolean connect(String uname, String pass) {
         AuthenticatorClient authenticator = new AuthenticatorClient(uname, pass);
 
         System.setProperty("javax.net.ssl.trustStore", "src/resources/client.ks");
@@ -30,7 +31,7 @@ public class ClientConnectionManager {
 
         try {
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
-            SSLSocket sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
+            sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
 
             //idenify that you are a voter client 
             MessageUtils.sendMessage(sslSocket, "Client");
@@ -46,6 +47,9 @@ public class ClientConnectionManager {
             }
             srvAnswer="";
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
+            if(srvAnswer.equals("NotFound")){
+                return false;
+            }
             System.out.println("Server: "+srvAnswer);
             if(!srvAnswer.isEmpty()){
                 authenticator.acceptChallenge(srvAnswer);
@@ -55,15 +59,18 @@ public class ClientConnectionManager {
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
             if(srvAnswer.equalsIgnoreCase("OK")){
                 System.out.println("Authentication successful");
+                return true;
             }else if(srvAnswer.equalsIgnoreCase("FAIL")){
                 System.out.println("Incorrect password");
+                return false;
             }else{
                 System.out.println("Authentication failed unknown reason");
+                return false;
             }
 
-            sslSocket.close();
         } catch (Exception exp) {
             exp.printStackTrace();
         }
+        return false;
     }
 }
