@@ -33,37 +33,37 @@ public class ClientConnectionManager {
             SSLSocketFactory sslsocketfactory = (SSLSocketFactory) SSLSocketFactory.getDefault();
             sslSocket = (SSLSocket) sslsocketfactory.createSocket(strServerName, intSSLport);
 
-            //idenify that you are a voter client 
+            //identify that you are a voter client 
             MessageUtils.sendMessage(sslSocket, "Client");
             System.out.println("Client: Client");
             //get challenge parameters from server
             String srvAnswer = MessageUtils.receiveMessage(sslSocket);
-            System.out.println("Server: "+srvAnswer);
-            if(srvAnswer.equalsIgnoreCase("GET USERNAME")){
+            System.out.println("Server: " + srvAnswer);
+            if (srvAnswer.equalsIgnoreCase("GET USERNAME")) {
                 //send username
                 String un = authenticator.getUsername();
-                System.out.println("Client :"+un);
+                System.out.println("Client :" + un);
                 MessageUtils.sendMessage(sslSocket, un);
             }
-            srvAnswer="";
+            srvAnswer = "";
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
-            if(srvAnswer.equals("NotFound")){
+            if (srvAnswer.equals("NotFound")) {
                 return false;
             }
-            System.out.println("Server: "+srvAnswer);
-            if(!srvAnswer.isEmpty()){
+            System.out.println("Server: " + srvAnswer);
+            if (!srvAnswer.isEmpty()) {
                 authenticator.acceptChallenge(srvAnswer);
             }
             MessageUtils.sendMessage(sslSocket, authenticator.sendChallengeAnswer());
-            srvAnswer="";
+            srvAnswer = "";
             srvAnswer = MessageUtils.receiveMessage(sslSocket);
-            if(srvAnswer.equalsIgnoreCase("OK")){
+            if (srvAnswer.equalsIgnoreCase("OK")) {
                 System.out.println("Authentication successful");
                 return true;
-            }else if(srvAnswer.equalsIgnoreCase("FAIL")){
+            } else if (srvAnswer.equalsIgnoreCase("FAIL")) {
                 System.out.println("Incorrect password");
                 return false;
-            }else{
+            } else {
                 System.out.println("Authentication failed unknown reason");
                 return false;
             }

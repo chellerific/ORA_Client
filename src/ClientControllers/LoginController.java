@@ -40,27 +40,35 @@ public class LoginController implements Initializable {
     private void logInAction(ActionEvent event) {
         connectionManager = new ClientConnectionManager();
         boolean authorized = connectionManager.connect(usernameField.getText(), passwordField.getText());
-        //connectManager.connect("bitharis@mail.com", "myPass");
         if (authorized) {
-            voteStage(event);
+            try {
+                Node node = (Node) event.getSource();
+                Stage stage = (Stage) node.getScene().getWindow();
+                Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/VotingScreen.fxml"));
+                Scene scene = new Scene(root);
+                stage.setScene(scene);
+                stage.show();
+            } catch (IOException ex) {
+                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            }
         } else {
             errorLabel.setText("Authorization failed. Please try again.");
         }
     }
-    
-        public void voteStage(ActionEvent event) {
-            System.out.println("Change to vote stage!");
+
+//    public void voteStage(ActionEvent event) {
+//        System.out.println("Change to vote stage!");
 //        try {
 //            Node node = (Node) event.getSource();
 //            Stage stage = (Stage) node.getScene().getWindow();
-//            Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/Vote.fxml"));
+//            Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/VotingScreen.fxml"));
 //            Scene scene = new Scene(root);
 //            stage.setScene(scene);
 //            stage.show();
 //        } catch (IOException ex) {
 //            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
 //        }
-    }
+//    }
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
