@@ -33,13 +33,13 @@ public class VotingScreenController implements Initializable {
 
     @FXML
     private Button downloadQtn, yesVote, noVote, logOut;
-    
+
     @FXML
     private TextArea questionTextArea;
-    
+
     @FXML
     Label errorLabel, greetings;
-    
+
     @FXML
     public void downloadQstn() {
         if (questionTextArea.getText().isEmpty()) {
@@ -53,17 +53,17 @@ public class VotingScreenController implements Initializable {
             }
         }
     }
-    @FXML 
+    @FXML
     public void submitVote() {
         if (yesVote.isPressed()) {
-            
+
         }
     }
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
-    
+
+    }
+
     @FXML
     public void logout(ActionEvent event) {
         //send log out request
@@ -82,5 +82,5 @@ public class VotingScreenController implements Initializable {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
