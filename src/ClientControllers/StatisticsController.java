@@ -32,7 +32,7 @@ public class StatisticsController implements Initializable {
      */
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_statistics");
+        MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_result");
         String statistics = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
         parseStatisticsMessage(statistics);
         
