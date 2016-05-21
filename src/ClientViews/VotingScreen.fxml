@@ -14,8 +14,8 @@
          </font>
       </Label>
       <TextArea fx:id="questionTextArea" layoutX="46.0" layoutY="67.0" prefHeight="172.0" prefWidth="506.0" />
-      <Button fx:id="yesVote" layoutX="202.0" layoutY="260.0" mnemonicParsing="false" onMousePressed="#submitVote" prefHeight="35.0" prefWidth="82.0" text="YES" />
-      <Button fx:id="noVote" layoutX="316.0" layoutY="260.0" mnemonicParsing="false" onMousePressed="#submitVote" prefHeight="35.0" prefWidth="82.0" text="NO" />
+      <Button fx:id="yesVoteBtn" layoutX="202.0" layoutY="260.0" mnemonicParsing="false" onMousePressed="#submitVote" prefHeight="35.0" prefWidth="82.0" text="YES" />
+      <Button fx:id="noVoteBtn" layoutX="316.0" layoutY="260.0" mnemonicParsing="false" onMousePressed="#submitVote" prefHeight="35.0" prefWidth="82.0" text="NO" />
       <Button fx:id="downloadQstn" layoutX="470.0" layoutY="28.0" mnemonicParsing="false" onAction="#downloadQstn" prefHeight="25.0" prefWidth="82.0" text="Download" />
       <Label fx:id="hasVoted" layoutX="233.0" layoutY="316.0" prefHeight="35.0" prefWidth="135.0" text="Please submit your vote." />
       <Button fx:id="logOut" layoutX="46.0" layoutY="333.0" mnemonicParsing="false" onAction="#logout" prefHeight="25.0" prefWidth="82.0" text="Log Out" />

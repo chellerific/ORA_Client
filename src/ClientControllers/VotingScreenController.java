@@ -35,7 +35,7 @@ import ora_client.MessageUtils;
 public class VotingScreenController implements Initializable {
 
     @FXML
-    private Button downloadQtn, yesVote, noVote, logOut;
+    private Button downloadQtn, yesVoteBtn, noVoteBtn, logOut;
 
     @FXML
     private TextArea questionTextArea;
@@ -52,30 +52,33 @@ public class VotingScreenController implements Initializable {
 
         }
     }
+
     public void submitVote() {
-        if (yesVote.isPressed()) {
+        if (yesVoteBtn.isPressed()) {
             System.out.println("Yes");
             BigInteger yes = new BigInteger("1");
-            AdHoPuK puk = new AdHoPuK( );
+            AdHoPuK puk = new AdHoPuK();
             puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
-            puk.doFinal(yes);
+            BigInteger yesVote = puk.doFinal(yes);
             MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "submit_vote");
-            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, yes.toString());
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, yesVote.toString());
             updateStatus();
-        } else if (noVote.isPressed()) {
+            yesVoteBtn.setDisable(true);
+            noVoteBtn.setDisable(true);
+        } else if (noVoteBtn.isPressed()) {
             System.out.println("No");
             BigInteger no = new BigInteger("0");
             AdHoPuK puk = new AdHoPuK();
             puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
-            puk.doFinal(no);
+            BigInteger noVote = puk.doFinal(no);
             MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "submit_vote");
-            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, no.toString());
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, noVote.toString());
             updateStatus();
+            noVoteBtn.setDisable(true);
+            yesVoteBtn.setDisable(true);
 
         }
     }
-    
-   
 
     private void updateStatus() {
         MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "update_status");
