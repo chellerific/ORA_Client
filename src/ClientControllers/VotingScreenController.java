@@ -52,22 +52,30 @@ public class VotingScreenController implements Initializable {
 
         }
     }
-
-    @FXML
     public void submitVote() {
         if (yesVote.isPressed()) {
+            System.out.println("Yes");
             BigInteger yes = new BigInteger("1");
             AdHoPuK puk = new AdHoPuK( );
             puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
             puk.doFinal(yes);
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "submit_vote");
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, yes.toString());
+            updateStatus();
         } else if (noVote.isPressed()) {
+            System.out.println("No");
             BigInteger no = new BigInteger("0");
             AdHoPuK puk = new AdHoPuK();
             puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
             puk.doFinal(no);
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "submit_vote");
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, no.toString());
+            updateStatus();
 
         }
     }
+    
+   
 
     private void updateStatus() {
         MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "update_status");
