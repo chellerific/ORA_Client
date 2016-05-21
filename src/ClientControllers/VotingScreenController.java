@@ -41,7 +41,7 @@ public class VotingScreenController implements Initializable {
     private TextArea questionTextArea;
 
     @FXML
-    private Label errorLabel, hasVoted;
+    Label errorLabel, hasVoted;
 
     @FXML
     public void downloadQstn() {
@@ -68,6 +68,7 @@ public class VotingScreenController implements Initializable {
             AdHoPuK puk = new AdHoPuK();
             puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
             puk.doFinal(no);
+
         }
     }
 
