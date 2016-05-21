@@ -19,7 +19,7 @@ import javax.crypto.spec.PBEKeySpec;
  */
 public class AuthenticatorClient {
 
-    private String username = "";
+    public static String username = "";
     private String password = "";
     //stores the salt sent from server
     private String salt = "";

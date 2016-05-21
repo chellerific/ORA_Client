@@ -21,6 +21,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import ora_client.ClientConnectionManager;
+import ora_client.MessageUtils;
 
 /**
  * FXML Controller class
@@ -32,7 +33,7 @@ public class LoginController implements Initializable {
     public static ClientConnectionManager connectionManager;
 
     @FXML
-    private TextField usernameField, passwordField;
+    public TextField usernameField, passwordField;
     @FXML
     private Label errorLabel;
 
@@ -41,37 +42,49 @@ public class LoginController implements Initializable {
         connectionManager = new ClientConnectionManager();
         boolean authorized = connectionManager.connect(usernameField.getText(), passwordField.getText());
         if (authorized) {
-            try {
-                Node node = (Node) event.getSource();
-                Stage stage = (Stage) node.getScene().getWindow();
-                Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/VotingScreen.fxml"));
-                Scene scene = new Scene(root);
-                stage.setScene(scene);
-                stage.show();
-            } catch (IOException ex) {
-                Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_status");
+            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, usernameField.getText());
+            String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
+            if (result.equals("ACK")) {
+                voteStage(event);
+            } else if (result.equals("NAK")) {
+                resultsStage(event);
             }
         } else {
-            errorLabel.setText("Authorization failed. Please try again.");
+            errorLabel.setText("Username or password incorrect.");
         }
     }
 
-//    public void voteStage(ActionEvent event) {
-//        System.out.println("Change to vote stage!");
-//        try {
-//            Node node = (Node) event.getSource();
-//            Stage stage = (Stage) node.getScene().getWindow();
-//            Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/VotingScreen.fxml"));
-//            Scene scene = new Scene(root);
-//            stage.setScene(scene);
-//            stage.show();
-//        } catch (IOException ex) {
-//            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
-//        }
-//    }
-
+    public void voteStage(ActionEvent event) {
+        System.out.println("Change to vote stage!");
+        try {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/VotingScreen.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
+    
+    public void resultsStage(ActionEvent event) {
+        System.out.println("Change to results stage!");
+        try {
+            Node node = (Node) event.getSource();
+            Stage stage = (Stage) node.getScene().getWindow();
+            Parent root = FXMLLoader.load(getClass().getResource("/ClientViews/Statistics.fxml"));
+            Scene scene = new Scene(root);
+            stage.setScene(scene);
+            stage.show();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
     @Override
-    public void initialize(URL url, ResourceBundle rb) {
+    public void initialize(URL url, ResourceBundle rb
+    ) {
         usernameField.setText("bitharis@mail.com");
         passwordField.setText("myPass");
     }

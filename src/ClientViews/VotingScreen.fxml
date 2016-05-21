@@ -6,7 +6,7 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.65" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientControllers.VotingScreenController">
+<AnchorPane id="AnchorPane" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.60" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ClientControllers.VotingScreenController">
    <children>
       <Label layoutX="202.0" layoutY="14.0" prefHeight="53.0" prefWidth="196.0" text="Referendum">
          <font>
@@ -16,8 +16,9 @@
       <TextArea fx:id="questionTextArea" layoutX="46.0" layoutY="67.0" prefHeight="172.0" prefWidth="506.0" />
       <Button fx:id="yesVote" layoutX="202.0" layoutY="260.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="82.0" text="YES" />
       <Button fx:id="noVote" layoutX="316.0" layoutY="260.0" mnemonicParsing="false" prefHeight="35.0" prefWidth="82.0" text="NO" />
-      <Button fx:id="downloadQstn" layoutX="470.0" layoutY="28.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Download" />
-      <Label fx:id="greetings" layoutX="233.0" layoutY="316.0" prefHeight="35.0" prefWidth="135.0" text="Please submit your vote." />
+      <Button fx:id="downloadQstn" layoutX="470.0" layoutY="28.0" mnemonicParsing="false" onAction="#downloadQstn" prefHeight="25.0" prefWidth="82.0" text="Download" />
+      <Label fx:id="hasVoted" layoutX="233.0" layoutY="316.0" prefHeight="35.0" prefWidth="135.0" text="Please submit your vote." />
       <Button fx:id="logOut" layoutX="46.0" layoutY="333.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Log Out" />
+      <Label fx:id="errorLabel" layoutX="153.0" layoutY="350.0" prefHeight="17.0" prefWidth="294.0" />
    </children>
 </AnchorPane>

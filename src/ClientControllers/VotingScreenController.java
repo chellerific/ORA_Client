@@ -5,8 +5,12 @@
  */
 package ClientControllers;
 
+import Encryption.AdHoPuK;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.net.Authenticator;
 import java.net.URL;
+import java.security.PublicKey;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -21,6 +25,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.stage.Stage;
+import ora_client.AuthenticatorClient;
 import ora_client.ClientConnectionManager;
 import ora_client.MessageUtils;
 
@@ -33,18 +38,17 @@ public class VotingScreenController implements Initializable {
 
     @FXML
     private Button downloadQtn, yesVote, noVote, logOut;
-    
+
     @FXML
     private TextArea questionTextArea;
-    
+
     @FXML
-    Label errorLabel, greetings;
-    
+    private Label errorLabel, hasVoted;
+
     @FXML
     public void downloadQstn() {
         if (questionTextArea.getText().isEmpty()) {
             MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_question");
-            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, questionTextArea.getText());
             String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
             if (result.equals("ACK")) {
                 errorLabel.setText("Question downloaded succesfully.");
@@ -53,17 +57,37 @@ public class VotingScreenController implements Initializable {
             }
         }
     }
-    @FXML 
+
+    @FXML
     public void submitVote() {
         if (yesVote.isPressed()) {
-            
+            BigInteger yes = new BigInteger("1");
+            AdHoPuK puk = new AdHoPuK( );
+            puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
+            puk.doFinal(yes);
+        } else if (noVote.isPressed()) {
+            BigInteger no = new BigInteger("0");
+            AdHoPuK puk = new AdHoPuK();
+            puk.init(AdHoPuK.Cipher.ENCRYPT_MODE, puk.getPublicKey());
+            puk.doFinal(no);
         }
     }
+
+    private void updateStatus() {
+        MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "update_status");
+        MessageUtils.sendMessage(ClientConnectionManager.sslSocket, AuthenticatorClient.username);
+        String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
+        if (result.equals("ACK")) {
+            hasVoted.setText("Thank you for voting.");
+        }
+
+    }
+
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-        
-    }    
-    
+
+    }
+
     @FXML
     public void logout(ActionEvent event) {
         //send log out request
@@ -82,5 +106,5 @@ public class VotingScreenController implements Initializable {
             Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
         }
     }
-    
+
 }
