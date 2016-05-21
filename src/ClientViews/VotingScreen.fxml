@@ -19,6 +19,6 @@
       <Button fx:id="downloadQstn" layoutX="470.0" layoutY="28.0" mnemonicParsing="false" onAction="#downloadQstn" prefHeight="25.0" prefWidth="82.0" text="Download" />
       <Label fx:id="hasVoted" layoutX="233.0" layoutY="316.0" prefHeight="35.0" prefWidth="135.0" text="Please submit your vote." />
       <Button fx:id="logOut" layoutX="46.0" layoutY="333.0" mnemonicParsing="false" prefHeight="25.0" prefWidth="82.0" text="Log Out" />
-      <Label fx:id="errorLabel" layoutX="153.0" layoutY="350.0" prefHeight="17.0" prefWidth="294.0" />
+      <Label fx:id="errorLabel" layoutX="202.0" layoutY="350.0" prefHeight="17.0" prefWidth="196.0" />
    </children>
 </AnchorPane>

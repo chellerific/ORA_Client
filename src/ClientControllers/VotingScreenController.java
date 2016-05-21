@@ -48,11 +48,8 @@ public class VotingScreenController implements Initializable {
         if (questionTextArea.getText().isEmpty()) {
             MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_question");
             String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
-            if (result.equals("ACK")) {
-                errorLabel.setText("Question downloaded succesfully.");
-            } else if (result.equals("NAK")) {
-                errorLabel.setText("Download unsuccessful. Please try again.");
-            }
+            questionTextArea.setText(result);
+
         }
     }
 
