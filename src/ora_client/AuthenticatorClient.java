@@ -97,7 +97,7 @@ public class AuthenticatorClient {
             KeySpec keySpec = new PBEKeySpec(pass.toCharArray(), salt.getBytes(), hashIterationNumber, HASH_BIT_LENGTH);
             byte[] hashValue = keyFactory.generateSecret(keySpec).getEncoded();
             for(int i=0; i<hashValue.length; i++){
-                hashPass = hashPass + Integer.toHexString(0xFF &hashValue[i]);
+                hashPass = hashPass + Integer.toHexString(0xff &hashValue[i]);
             }
         } catch (NoSuchAlgorithmException ex) {
             Logger.getLogger(AuthenticatorClient.class.getName()).log(Level.SEVERE, null, ex);

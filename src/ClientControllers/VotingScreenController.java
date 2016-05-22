@@ -49,6 +49,8 @@ public class VotingScreenController implements Initializable {
             MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_question");
             String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
             questionTextArea.setText(result);
+            yesVoteBtn.setDisable(false);
+            noVoteBtn.setDisable(false);
 
         }
     }
@@ -92,7 +94,8 @@ public class VotingScreenController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle rb) {
-
+        yesVoteBtn.setDisable(true);
+        noVoteBtn.setDisable(true);
     }
 
     @FXML
