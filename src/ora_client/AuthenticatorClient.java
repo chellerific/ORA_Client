@@ -8,6 +8,7 @@ package ora_client;
 import java.security.NoSuchAlgorithmException;
 import java.security.spec.InvalidKeySpecException;
 import java.security.spec.KeySpec;
+import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.crypto.SecretKeyFactory;
@@ -91,6 +92,10 @@ public class AuthenticatorClient {
     
     private String calculatePasswordHash(String pass, String salt) throws InvalidKeySpecException{
         String hashPass="";
+        System.out.println("salt bytes: "+salt.getBytes());
+        System.out.println("Password: "+pass);
+        System.out.println("pass.toCharArray()"+pass.toCharArray());
+        
         System.out.println("Calculating paswword hash...");
         try {
             SecretKeyFactory keyFactory = SecretKeyFactory.getInstance("PBKDF2WithHmacSHA1");
