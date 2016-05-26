@@ -22,6 +22,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 import ora_client.AuthenticatorClient;
 import ora_client.ClientConnectionManager;
@@ -43,18 +44,6 @@ public class VotingScreenController implements Initializable {
     @FXML
     Label errorLabel, hasVoted;
 
-    @FXML
-    public void downloadQstn() {
-        if (questionTextArea.getText().isEmpty()) {
-            MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_question");
-            String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
-            questionTextArea.setText(result);
-            yesVoteBtn.setDisable(false);
-            noVoteBtn.setDisable(false);
-
-        }
-    }
-
     public void submitVote() {
         if (yesVoteBtn.isPressed()) {
             System.out.println("Yes");
@@ -67,6 +56,7 @@ public class VotingScreenController implements Initializable {
             updateStatus();
             yesVoteBtn.setDisable(true);
             noVoteBtn.setDisable(true);
+            statisticsStage();
         } else if (noVoteBtn.isPressed()) {
             System.out.println("No");
             BigInteger no = new BigInteger("0");
@@ -78,7 +68,7 @@ public class VotingScreenController implements Initializable {
             updateStatus();
             noVoteBtn.setDisable(true);
             yesVoteBtn.setDisable(true);
-
+            statisticsStage();
         }
     }
 
@@ -96,6 +86,14 @@ public class VotingScreenController implements Initializable {
     public void initialize(URL url, ResourceBundle rb) {
         yesVoteBtn.setDisable(true);
         noVoteBtn.setDisable(true);
+        loadQuestion();
+    }
+    public void loadQuestion(){
+        MessageUtils.sendMessage(ClientConnectionManager.sslSocket, "get_question");
+            String result = MessageUtils.receiveMessage(ClientConnectionManager.sslSocket);
+            questionTextArea.setText(result);
+            yesVoteBtn.setDisable(false);
+            noVoteBtn.setDisable(false);
     }
 
     @FXML
@@ -117,4 +115,15 @@ public class VotingScreenController implements Initializable {
         }
     }
 
+    public void statisticsStage() {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/ClientViews/Statistics.fxml"));
+            Parent root = fxmlLoader.load();
+            Stage stage = new Stage();
+            stage.setScene(new Scene(root));
+            stage.showAndWait();
+        } catch (IOException ex) {
+            Logger.getLogger(LoginController.class.getName()).log(Level.SEVERE, null, ex);
+        }
+    }
 }
